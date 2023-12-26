@@ -1,18 +1,30 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>User Registration</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100">
+@extends('app')
+
+@section('content')
 
 <div class="container mx-auto max-w-md py-12">
 
     <header class="text-center mb-8">
-        <h2 class="text-2xl font-bold uppercase mb-1">Login</h2
-    </header>
+            <h2 class="text-2xl font-bold uppercase mb-1 border-b-2 border-blue-500 pb-2">Login</h2>
+        </header>
+
+        
+        @if(session()->has('error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline">{{ $error }}</span>
+        </div>
+    @endif
+    
+    @if(session()->has('success'))
+    <div x-data="{show:true}" x-init="setTimeout(()=> show = false,5000)" x-show="show" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+@endif
+    
+
+
 
     <form method="POST" action="{{route('login')}}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         @csrf
@@ -46,18 +58,21 @@
             @enderror
         </div>
 
-      
-        <!-- Submit button -->
-        <div class="flex items-center justify-between">
-            <button
-                type="submit"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-                Log in
-            </button>
-        </div>
+      <!-- Submit button -->
+<div class="flex items-center justify-between">
+    <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    >
+        Log in
+    </button>
 
-        
+    {{-- Forgot password --}}
+            <a href="{{ route('forgot-password') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4">
+                Forgot Password
+            </a>
+</div>
+
         <!-- Login link -->
         <div class="mt-4 text-center">
             <p>Not have an account? <a href="/register" class="text-blue-500 hover:text-blue-700">Register</a></p>
@@ -65,6 +80,4 @@
     </form>
 
 </div>
-
-</body>
-</html>
+@endsection

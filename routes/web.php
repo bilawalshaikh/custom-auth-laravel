@@ -15,7 +15,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('users.dashboard');
 });
 
 
@@ -28,4 +28,26 @@ Route::post('/register', [AuthController::class, 'store'])->name('register.submi
 
 
 Route::post('/dashboard', [AuthController::class, 'logout'])->name('logout');
+
+
+Route::get('/forgot-password',
+ [AuthController::class, 'showForgotPasswordForm'])
+    ->name('forgot-password');
+
+    Route::post('/forgot-password', 
+    [AuthController::class, 'sendResetLink'])
+        ->name('forgot-password.email');
+
+
+Route::get('/reset-password/{token}',
+[AuthController::class, 'resetPassword'])
+->name('reset.password');
+       
+Route::post('/reset-password',
+[AuthController::class, 'resetPasswordPost'])
+->name('reset.password.post');
+       
+        
+
+
 
